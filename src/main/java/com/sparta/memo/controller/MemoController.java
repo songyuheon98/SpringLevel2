@@ -3,7 +3,10 @@ package com.sparta.memo.controller;
 import com.sparta.memo.dto.MemoRequestDto;
 import com.sparta.memo.dto.MemoResponseDto;
 import com.sparta.memo.entity.Memo;
+import com.sparta.memo.entity.User;
 import com.sparta.memo.service.MemoService;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +22,9 @@ public class MemoController {
     }
 
     @PostMapping("/memos")
-    public MemoResponseDto createMemo(@RequestBody MemoRequestDto requestDto) {
-        return memoService.createMemo(requestDto);
+    public MemoResponseDto createMemo(@RequestBody MemoRequestDto requestDto, HttpServletRequest req) {
+        User user = (User) req.getAttribute("user");
+        return memoService.createMemo(requestDto, user.getUsername());
     }
 
     @GetMapping("/memos")
@@ -34,14 +38,16 @@ public class MemoController {
     }
 
     @PutMapping("/memos/{id}")
-    public Memo updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto) {
-        String password = requestDto.getPassword();
-        return memoService.updateMemo(id, requestDto, password);
+    public Memo updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto, HttpServletRequest req) {
+        User user = (User) req.getAttribute("user");
+
+        return memoService.updateMemo(id, requestDto,user.getUsername());
     }
 
     @DeleteMapping("/memos/{id}")
-    public Long deleteMemo(@PathVariable Long id, @RequestBody Map<String, String> requestBody) {
-        String password = requestBody.get("password");
-        return memoService.deleteMemo(id, password);
+    public ResponseEntity<String> deleteMemo(@PathVariable Long id, HttpServletRequest req) {
+        User user = (User) req.getAttribute("user");
+
+        return memoService.deleteMemo(id, user.getUsername());
     }
 }
