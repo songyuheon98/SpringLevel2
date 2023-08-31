@@ -12,7 +12,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class MemoController {
-
     private final MemoService memoService;
 
     public MemoController(MemoService memoService) {
