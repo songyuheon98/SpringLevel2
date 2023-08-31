@@ -16,8 +16,6 @@ public class MemoResponseDto { // 응답하는 Dto
     private LocalDateTime createdAt;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private LocalDateTime modifiedAt;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String password;
 
 
     public MemoResponseDto(Memo memo) {
@@ -27,7 +25,6 @@ public class MemoResponseDto { // 응답하는 Dto
         this.contents = memo.getContents();
         this.createdAt = memo.getCreatedAt();
         this.modifiedAt = memo.getModifiedAt();
-        this.password = memo.getPassword();
     }
     public MemoResponseDto(String username,String title, String contents, LocalDateTime createdAt) {
         this.username = username;

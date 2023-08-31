@@ -4,7 +4,6 @@ import com.sparta.memo.entity.Memo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MemoRepository extends JpaRepository<Memo, Long> { // JpaRepository 덕분에 @Repository 선언 안해도 자동으로 Bean으로 취급
     List<Memo> findAllByOrderByCreatedAtDesc(); // 필요한 정보만 가져오도록 함

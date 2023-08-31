@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class UserService {
@@ -21,10 +22,27 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
+    private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-z0-9]{4,10}$");
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9]{8,15}$");
+
+    public static boolean isValidUsername(String username) {
+        return USERNAME_PATTERN.matcher(username).matches();
+    }
+
+    public static boolean isValidPassword(String password) {
+        return PASSWORD_PATTERN.matcher(password).matches();
+    }
 
     public void signup(UserDto requestDto) {
         String username = requestDto.getUsername();
-        String password = passwordEncoder.encode(requestDto.getPassword());
+        String password = requestDto.getPassword();
+        if (!isValidPassword(password))
+            throw new IllegalArgumentException("PW 형태가 부적절합니다.");
+        else
+            password = passwordEncoder.encode(password);
+
+        if (!isValidUsername(username))
+            throw new IllegalArgumentException("ID 형태가 부적절합니다.");
 
         // 회원 중복 확인
         Optional<User> checkUsername = userRepository.findByUsername(username); // 쿼리 메서드 사용

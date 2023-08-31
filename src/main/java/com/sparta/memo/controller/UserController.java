@@ -4,6 +4,7 @@ import com.sparta.memo.dto.UserDto;
 import com.sparta.memo.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // 그냥 컨트롤러라 return값 뒤에 html 붙음
@@ -29,7 +30,6 @@ public class UserController {
     @PostMapping("/user/signup")
     public ResponseEntity<String> signup(@RequestBody UserDto requestDto) {
         userService.signup(requestDto);
-
         String jsonResponse = "{\"msg\": \"회원가입 성공\", \"statusCode\": 200}";
         return ResponseEntity.ok(jsonResponse);
     }
