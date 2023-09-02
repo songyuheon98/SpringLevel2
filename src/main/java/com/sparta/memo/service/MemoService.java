@@ -21,7 +21,7 @@ public class MemoService {
 
     public MemoResponseDto createMemo(MemoRequestDto requestDto, String username) {
         // RequestDto -> Entity
-        Memo memo = new Memo(requestDto);
+        Memo memo = new Memo(requestDto, username);
 
         // DB 저장
         Memo saveMemo = memoRepository.save(memo);
